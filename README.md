@@ -37,4 +37,7 @@ php /var/www/vendor/phpunit/phpunit/phpunit
 ```bash
 php bin/console doctrine:fixtures:load --env=test
 ```
-
+## Console
+```bash
+symfony console list make
+```
