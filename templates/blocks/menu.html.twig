@@ -4,5 +4,6 @@
         {% for conference in conferences %}
             <li><a href="{{ path('conferences.show', { slug: conference.slug }) }}">{{ conference }}</a></li>
         {% endfor %}
+        <li><a href="{{ path('admin') }}">Admin</a></li>
     </ul>
 </header>
