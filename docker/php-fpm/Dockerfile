@@ -1,20 +1,17 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 # Install packages
 RUN apk add --no-cache curl git build-base zlib-dev oniguruma-dev autoconf bash
 RUN apk add --update linux-headers
-
-# Xdebug
-ARG INSTALL_XDEBUG=false
-RUN if [ ${INSTALL_XDEBUG} = true ]; \
-    then \
-      pecl install xdebug && docker-php-ext-enable xdebug; \
-    fi;
-
-COPY ./docker/php-fpm/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
+RUN apk add icu-dev
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
 # Postgres
 RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_pgsql
+RUN curl -sSLf \
+        -o /usr/local/bin/install-php-extensions \
+        https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
+    chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions @fix_letsencrypt
 
 # Configure non-root user.
 ARG PUID=1000
@@ -27,10 +24,6 @@ RUN apk --no-cache add shadow && \
 RUN apk add --update --no-cache nginx
 COPY ./docker/php-fpm/nginx.conf /etc/nginx/
 RUN chown -Rf www-data:www-data /var/lib/nginx
-
-# Supervisor
-RUN apk add --no-cache supervisor
-COPY ./docker/php-fpm/supervisord.conf /etc/supervisord.conf
 
 # Source code
 RUN chown www-data:www-data /var/www

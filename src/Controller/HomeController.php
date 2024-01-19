@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
+use App\Repository\ConferenceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(Environment $twig, ConferenceRepository $conferenceRepository): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+
+        return new Response($twig->render('home/index.html.twig', [
+            'conferences' => $conferenceRepository->findAll(),
+        ]));
     }
 }
