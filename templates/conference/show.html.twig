@@ -9,7 +9,7 @@
         <div>There are {{ comments|length }} / {{ count}} comments.</div>
         {% for comment in comments %}
             {% if comment.photofilename %}
-                <img src="{{ asset(comment.photofilename) }}" style="max-width: 200px" />
+                <img src="{{ asset(comment.photofilename) }}" alt="{{ comment.id }}" style="max-width: 200px" />
             {% endif %}
 
             <h4>{{ comment.author }}</h4>
@@ -21,10 +21,10 @@
         {% endfor %}
 
         {% if previous >= 0 %}
-            <a href="{{ path('conferences.show', { id: conference.id, offset: previous }) }}">Previous</a>
+            <a href="{{ path('conferences.show', { slug: conference.slug, offset: previous }) }}">Previous</a>
         {% endif %}
         {% if next < comments|length %}
-            <a href="{{ path('conferences.show', { id: conference.id, offset: next }) }}">Next</a>
+            <a href="{{ path('conferences.show', { slug: conference.slug, offset: next }) }}">Next</a>
         {% endif %}
     {% else %}
         <div>No comments have been posted yet for this conference.</div>

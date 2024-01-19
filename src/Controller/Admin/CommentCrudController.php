@@ -41,20 +41,14 @@ class CommentCrudController extends AbstractCrudController
         yield AssociationField::new('conference');
         yield TextField::new('author');
         yield EmailField::new('email');
-        yield TextareaField::new('text')
-            ->hideOnIndex();
-        yield TextField::new('photoFilename')
-            ->onlyOnIndex();
-        
-        yield TextField::new('createdAt');
-
-        /*$createdAt = DateTimeField::new('createdAt');
+        yield TextareaField::new('text')->hideOnIndex();
+        yield TextField::new('photoFilename')->onlyOnIndex();
 
         if (Crud::PAGE_EDIT === $pageName) {
-            yield $createdAt->setFormTypeOption('disabled', true);
-        } else {
-            yield $createdAt;
-        }*/
+            yield TextField::new('createdAt')->setFormTypeOption('disabled', true);
+        }else{
+            yield TextField::new('createdAt')->onlyOnIndex();
+        }
     }
 
 }
