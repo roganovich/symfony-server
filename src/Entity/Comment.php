@@ -88,9 +88,9 @@ class Comment
         return $this;
     }
 
-    public function getCreatedAt(): ?string
+    public function getCreatedAt(): ?Carbon
     {
-        return $this->createdAt;
+        return Carbon::parse($this->createdAt);
     }
 
     public function setCreatedAt(string $createdAt): static
