@@ -9,7 +9,7 @@
         <div>There are {{ comments|length }} / {{ count}} comments.</div>
         {% for comment in comments %}
             {% if comment.photofilename %}
-                <img src="{{ asset(comment.photofilename) }}" alt="{{ comment.id }}" style="max-width: 200px" />
+                <img src="{{ asset('uploads/photos/' ~ comment.photofilename) }}" alt="{{ comment.id }}" style="max-width: 200px" />
             {% endif %}
 
             <h4>{{ comment.author }}</h4>
@@ -29,4 +29,9 @@
     {% else %}
         <div>No comments have been posted yet for this conference.</div>
     {% endif %}
+
+    <div>
+        <h2>Add your own feedback</h2>
+        {{ form(comment_form) }}
+    </div>
 {% endblock %}
