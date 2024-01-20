@@ -57,6 +57,7 @@ class CommentCrudController extends AbstractCrudController
         yield TextField::new('author');
         yield EmailField::new('email');
         yield TextareaField::new('text')->hideOnIndex();
+        yield TextField::new('state');
 
         $filesystem = new Filesystem();
         $basePath = $filesystem->makePathRelative($this->photoDir, $this->baseDir);

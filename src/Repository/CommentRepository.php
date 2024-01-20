@@ -20,6 +20,7 @@ class CommentRepository extends ServiceEntityRepository
 {
     const PAGINATOR_PER_PAGE = 2;
 
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
@@ -30,7 +31,9 @@ class CommentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->select('count(c.id)')
             ->andWhere('c.conference = :conference')
+            ->andWhere('c.state = :state')
             ->setParameter('conference', $conference)
+            ->setParameter('state', Comment::STATE_PUBLISHED)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -39,7 +42,9 @@ class CommentRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('c')
             ->andWhere('c.conference = :conference')
+            ->andWhere('c.state = :state')
             ->setParameter('conference', $conference)
+            ->setParameter('state', Comment::STATE_PUBLISHED)
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)

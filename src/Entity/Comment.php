@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Comment
 {
+    const STATE_SUBMITTED = 'submitted';
+    const STATE_SPAM= 'spam';
+    const STATE_PUBLISHED= 'published';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "SEQUENCE")]
     #[ORM\Column]
@@ -46,6 +50,9 @@ class Comment
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photoFilename = null;
+
+    #[ORM\Column(length: 255, options: ['default' => Comment::STATE_SUBMITTED])]
+    private ?string $state = Comment::STATE_SUBMITTED;
 
     public function getId(): ?int
     {
@@ -120,6 +127,18 @@ class Comment
     public function setPhotoFilename(?string $photoFilename): static
     {
         $this->photoFilename = $photoFilename;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): static
+    {
+        $this->state = $state;
 
         return $this;
     }
