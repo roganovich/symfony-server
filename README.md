@@ -35,7 +35,7 @@ php bin/console debug:router
 ```
 ## Tests
 ```bash
-php /var/www/vendor/phpunit/phpunit/phpunit
+php bin/phpunit
 ```
 ## Fixtures
 ```bash

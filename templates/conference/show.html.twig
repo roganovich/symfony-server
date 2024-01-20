@@ -3,10 +3,10 @@
 {% block title %}Conference Guestbook - {{ conference }}{% endblock %}
 
 {% block body %}
-    <h1>{{ conference }} Conference</h1>
+    <h1>{{ conference }}</h1>
 
     {% if comments|length > 0 %}
-        <div>There are {{ comments|length }} / {{ count}} comments.</div>
+        <div>There are {{ comments|length }}/{{ count}} comments.</div>
         {% for comment in comments %}
             {% if comment.photofilename %}
                 <img src="{{ asset('uploads/photos/' ~ comment.photofilename) }}" alt="{{ comment.id }}" style="max-width: 200px" />
