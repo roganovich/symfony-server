@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\Conference;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
-use App\Services\SpamChecker;
 use Carbon\Carbon;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,11 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class ConferenceController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
+        private MessageBusInterface $bus,
     )
     {
     }
@@ -29,6 +31,11 @@ class ConferenceController extends AbstractController
     #[Route('/conferences', name: 'conferences.index')]
     public function index(ConferenceRepository $conferenceRepository): Response
     {
+        /*
+        $session = $request->getSession();
+        $session->set('attribute-name', 'attribute-value');
+        */
+
         return $this->render('conference/index.html.twig', [
             'conferences' => $conferenceRepository->findAll(),
         ]);
@@ -38,17 +45,11 @@ class ConferenceController extends AbstractController
     public function show(Request                           $request,
                          Conference                        $conference,
                          CommentRepository                 $commentRepository,
-                         SpamChecker                       $spamChecker,
                          #[Autowire('%photo_dir%')] string $photoDir,
     ): Response
     {
-        /*
-        $session = $request->getSession();
-        $session->set('attribute-name', 'attribute-value');
-        */
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +70,9 @@ class ConferenceController extends AbstractController
                 $filename = $subDir . DIRECTORY_SEPARATOR . $filename;
                 $comment->setPhotoFilename($filename);
             }
+
             $this->entityManager->persist($comment);
+            $this->entityManager->flush();
 
             $context = [
                 'user_ip' => $request->getClientIp(),
@@ -77,11 +80,7 @@ class ConferenceController extends AbstractController
                 'referrer' => $request->headers->get('referer'),
                 'permalink' => $request->getUri(),
             ];
-            if (2 === $spamChecker->getSpamScore($comment, $context)) {
-                throw new \RuntimeException('Blatant spam, go away!');
-            }
-
-            $this->entityManager->flush();
+            $this->bus->dispatch(new CommentMessage($comment->getId(), $context));
 
             return $this->redirectToRoute('conferences.show', ['slug' => $conference->getSlug()]);
         }

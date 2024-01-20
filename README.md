@@ -45,3 +45,7 @@ php bin/console doctrine:fixtures:load --env=test
 ```bash
 php bin/console list make
 ```
+## Dispatching the Message
+```bash
+php bin/console messenger:consume async -vv
+```
