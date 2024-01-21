@@ -6,6 +6,10 @@
 parameters:
     base_dir: "%kernel.project_dir%/public"
     photo_dir: "%kernel.project_dir%/public/uploads/photos"
+    default_admin_email: admin@test.te
+    admin_email: "%env(string:default:default_admin_email:ADMIN_EMAIL)%"
+    default_base_url: 'http://127.0.0.1:8080'
+    router.request_context.base_url: '%env(default:default_base_url:SYMFONY_PROJECT_DEFAULT_ROUTE_URL)%'
 
 services:
     # default configuration for services in *this* file

@@ -24,7 +24,9 @@
         "symfony/expression-language": "6.4.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.4.*",
+        "symfony/google-mailer": "6.4.*",
         "symfony/http-client": "6.4.*",
+        "symfony/mailer": "6.4.*",
         "symfony/messenger": "6.4.*",
         "symfony/mime": "6.4.*",
         "symfony/property-access": "6.4.*",
@@ -36,6 +38,9 @@
         "symfony/validator": "6.4.*",
         "symfony/workflow": "6.4.*",
         "symfony/yaml": "6.4.*",
+        "twig/cssinliner-extra": "^3",
+        "twig/extra-bundle": "^3.8",
+        "twig/inky-extra": "^3.8",
         "twig/intl-extra": "^3"
     },
     "config": {
