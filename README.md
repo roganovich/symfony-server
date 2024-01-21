@@ -46,6 +46,21 @@ php bin/console doctrine:fixtures:load --env=test
 php bin/console list make
 ```
 ## Dispatching the Message
+Команда для получения сообщений
 ```bash
 php bin/console messenger:consume async -vv
+```
+Выполните команду symfony server:log и добавьте комментарий к любой конференции,
+чтобы увидеть в терминале, как один за другим происходят переходы состояний.
+```bash
+php bin/console messenger:failed:show
+```
+## Log
+```bash
+php bin/console server:log
+```
+## Workflow
+Выполните следующую команду, чтобы получить список сервисов, в имени которых содержится "workflow":
+```bash
+php bin/console debug:container workflow
 ```
