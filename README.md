@@ -1,5 +1,4 @@
-# SymfonyDocker
-
+# Symfony Server APP
 ## Docker
 ```bash
 DOCKER_BUILDKIT=0 docker-compose -f docker/docker-compose.yml build
@@ -11,25 +10,21 @@ DOCKER_BUILDKIT=0 docker-compose -f docker/docker-compose.yml up -d
 docker exec -it symfony-server-php-fpm bash
 ```
 ```Очистить контейнеры
-docker container stop $(docker container ls -aq)
+docker container stop $(docker container ls -aq) 
 docker container rm $(docker container ls -aq)
 ```
-```bash
-php bin/console cache:clear
-```
-
 ## Doctrine
 ```bash
 php bin/console doctrine:schema:validate
 ```
-### Migrations
+## Migrations
 ```bash
 php bin/console doctrine:migrations:diff
 ```
 ```bash
 php bin/console doctrine:migrations:migrate
 ```
-### Routes
+## Routes
 ```bash
 php bin/console debug:router
 ```
@@ -64,3 +59,19 @@ php bin/console server:log
 ```bash
 php bin/console debug:container workflow
 ```
+## Cache
+Очистка HTTP-кеша для тестирования
+```bash
+php bin/console cache:clear
+```
+```bash
+rm -rf var/cache/dev/http_cache/
+```
+## Command
+```bash
+php bin/console make:command app:step:info
+```
+```bash
+php bin/console app:step:info
+```
+

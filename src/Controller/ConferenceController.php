@@ -98,4 +98,5 @@ class ConferenceController extends AbstractController
             'comment_form' => $form,
         ]);
     }
+
 }

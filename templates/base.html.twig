@@ -11,7 +11,7 @@
         {% endblock %}
     </head>
     <body>
-        {{ include('blocks/menu.html.twig') }}
-        {% block body %}{% endblock %}
+    {{ render_esi(path('header_menu')) }}
+    {% block body %}{% endblock %}
     </body>
 </html>

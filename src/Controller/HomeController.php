@@ -10,10 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(ConferenceRepository $conferenceRepository): Response
+    public function index(): Response
     {
-        return $this->render('conference/index.html.twig', [
+        return $this->render('home/index.html.twig');
+    }
+
+
+    #[Route('/header_menu', name: 'header_menu')]
+    public function headerMenu(ConferenceRepository $conferenceRepository): Response
+    {
+        return $this->render('blocks/menu.html.twig', [
             'conferences' => $conferenceRepository->findAll(),
-        ]);
+        ])->setSharedMaxAge(3600);
     }
 }

@@ -57,11 +57,28 @@ services:
       - RABBITMQ_DEFAULT_USER=symfony
       - RABBITMQ_DEFAULT_PASS=symfony
     depends_on:
-      - postgres
+      - php-fpm
     networks:
       - fpm_postgres
+  redis:
+    container_name: ${COMPOSE_PROJECT_NAME}-redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+    depends_on:
+      - php-fpm
+    networks:
+      - fpm_postgres
+
 volumes:
   db_data:
+  cache:
+    driver: local
+
 networks: # явно объявленные сети
   fpm_postgres:
     driver: bridge
