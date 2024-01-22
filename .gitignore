@@ -1,18 +1,21 @@
+.idea
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
+.env
+.env.test
+.env.local
+composer.lock
+symfony.lock
+
+/assets
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /public/uploads/
 /var/
 /vendor/
-.idea
-.env
-.env.*
+
+
 ###> phpunit/phpunit ###
-/phpunit.xml
+phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
